@@ -14,7 +14,9 @@ const Statistics = () => {
             method: 'get',
             url: 'https://manducares.com/api/v1/recepies',
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
             }
         }).then((response) => {
             console.log(response.data.data.doc)
@@ -26,7 +28,21 @@ const Statistics = () => {
     }, [])
 
 
+    const imgElement = document.querySelector('img');
 
+    const authToken = localStorage.getItem('token')
+
+    const headers = new Headers({
+        'Authorization': `Bearer ${authToken}`
+    })
+
+    fetch('https://manducares.com/recepie-64976c4ad561d223c5ac6ddb-1689024695194.jpg', {
+  method: 'GET',
+  headers: headers,
+})
+.then(response => {
+  console.log("response")
+  console.log(response)})
 
 
 
@@ -37,7 +53,7 @@ const Statistics = () => {
           {recipes.map((recipe) => (
             <div key={recipe.id} className="group relative" onClick={() => handleClick(recipe)}>
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                <img crossOrigin='anonymous' src={`https://manducares.com/${recipe.imageCover}` } alt="" className="w-full h-full object-center object-cover lg:w-full lg:h-full" />              
+                <img src={`https://manducares.com/${recipe.imageCover}`}   alt="" className="w-full h-full object-center object-cover lg:w-full lg:h-full" />              
               </div>
               <div className="mt-4 bg-teal-600 bg-opacity-30 shadow-lg rounded-lg flex justify-center items-center">
                 <h4>{recipe.name}</h4>
